@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Mesón - Table 3</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <div id="language-selector">
+        <label for="language-select" data-i18n="language">Language:</label>
+        <select id="language-select">
+            <option value="en" data-i18n="english">English</option>
+            <option value="es" data-i18n="spanish">Spanish</option>
+        </select>
+    </div>
+    <img id="header-img" src="assets/LogoMeson.png" alt="El Mesón Logo">
+    <h1 data-i18n="restaurantName">El Mesón</h1>
+    <h2 id="table-number" data-i18n="tableNumber" data-table-number="3">Table 3</h2>
+    <nav>
+        <ul>
+            <li><a href="index.html" data-i18n="ourMenu">Our Menu</a></li>
+            <li><a href="index.html#tables" data-i18n="selectTable">Select Table</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section id="current-order">
+        <h2 data-i18n="placeYourOrder">Place Your Order</h2>
+        <div id="total-price-display" class="total-price">
+            <h3 data-i18n="currentTotal" data-price="0">Current Total: €0.00</h3>
+        </div>
+        <div id="order-items" class="order-items">
+            <!-- Order items will be displayed here -->
+        </div>
+    </section>
+
+    <section id="menu">
+        <h2 data-i18n="menu">Menu</h2>
+        <article class="menu-item">
+            <img src="assets/BocataCalamaresMeson.png" alt="Bocata de Calamares">
+            <div class="item-details">
+                <h3 data-i18n="bocataCalamares">Bocata de Calamares</h3>
+                <p><span data-i18n="bocataCalamaresDesc">Traditional Madrid-style sandwich with crispy fried squid rings and aioli sauce.</span> <i><span data-i18n="price">Price:</span> $12.99</i></p>
+                <div class="item-order-controls">
+                    <input type="number" class="item-quantity" min="1" value="1" data-item-id="bocata-calamares" data-price="12.99">
+                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="bocata-calamares" data-item-name="Bocata de Calamares" data-price="12.99">Add To Order</button>
+                </div>
+            </div>
+        </article>
+
+        <article class="menu-item">
+            <img src="assets/BocataTortillaMeson.png" alt="Bocata de Tortilla">
+            <div class="item-details">
+                <h3 data-i18n="bocataTortilla">Bocata de Tortilla</h3>
+                <p><span data-i18n="bocataTortillaDesc">Classic Madrid sandwich with Spanish omelette made with potatoes and onions.</span> <i><span data-i18n="price">Price:</span> $10.50</i></p>
+                <div class="item-order-controls">
+                    <input type="number" class="item-quantity" min="1" value="1" data-item-id="bocata-tortilla" data-price="10.50">
+                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="bocata-tortilla" data-item-name="Bocata de Tortilla" data-price="10.50">Add To Order</button>
+                </div>
+            </div>
+        </article>
+
+        <article class="menu-item">
+            <img src="assets/BocataJamonMeson.png" alt="Bocata de Jamón">
+            <div class="item-details">
+                <h3 data-i18n="bocataJamon">Bocata de Jamón</h3>
+                <p><span data-i18n="bocataJamonDesc">Delicious sandwich with premium Iberian ham, tomato, and olive oil on crusty bread.</span> <i><span data-i18n="price">Price:</span> $14.00</i></p>
+                <div class="item-order-controls">
+                    <input type="number" class="item-quantity" min="1" value="1" data-item-id="bocata-jamon" data-price="14.00">
+                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="bocata-jamon" data-item-name="Bocata de Jamón" data-price="14.00">Add To Order</button>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section id="sides-drinks">
+        <h2 data-i18n="addSides">Add Sides</h2>
+        <div class="sides-container">
+            <article class="side-item">
+                <h3 data-i18n="mixedSalad">Mixed Salad</h3>
+                <p><i><span data-i18n="price">Price:</span> $3.50</i></p>
+                <div class="item-order-controls">
+                    <input type="number" class="item-quantity" min="1" value="1" data-item-id="mixed-salad" data-price="3.50">
+                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="mixed-salad" data-item-name="Mixed Salad" data-price="3.50">Add To Order</button>
+                </div>
+            </article>
+
+            <article class="side-item">
+                <h3 data-i18n="caesarSalad">Caesar Salad</h3>
+                <p><i><span data-i18n="price">Price:</span> $4.50</i></p>
+                <div class="item-order-controls">
+                    <input type="number" class="item-quantity" min="1" value="1" data-item-id="caesar-salad" data-price="4.50">
+                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="caesar-salad" data-item-name="Caesar Salad" data-price="4.50">Add To Order</button>
+                </div>
+            </article>
+
+            <article class="side-item">
+                <h3 data-i18n="potatoes">Potatoes</h3>
+                <p><i><span data-i18n="price">Price:</span> $3.00</i></p>
+                <div class="item-order-controls">
+                    <input type="number" class="item-quantity" min="1" value="1" data-item-id="potatoes" data-price="3.00">
+                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="potatoes" data-item-name="Potatoes" data-price="3.00">Add To Order</button>
+                </div>
+            </article>
+
+            <article class="side-item">
+                <h3 data-i18n="patatasBravas">Patatas Bravas</h3>
+                <p><i><span data-i18n="price">Price:</span> $4.00</i></p>
+                <div class="item-order-controls">
+                    <input type="number" class="item-quantity" min="1" value="1" data-item-id="patatas-bravas" data-price="4.00">
+                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="patatas-bravas" data-item-name="Patatas Bravas" data-price="4.00">Add To Order</button>
+                </div>
+            </article>
+        </div>
+
+        <h2 data-i18n="chooseDrink">Choose a Drink</h2>
+        <div class="drinks-container">
+            <article class="drink-item">
+                <h3 data-i18n="water">Water</h3>
+                <p><i><span data-i18n="price">Price:</span> $1.50</i></p>
+                <div class="item-order-controls">
+                    <input type="number" class="item-quantity" min="1" value="1" data-item-id="water" data-price="1.50">
+                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="water" data-item-name="Water" data-price="1.50">Add To Order</button>
+                </div>
+            </article>
+
+            <article class="drink-item">
+                <h3 data-i18n="soda">Soda</h3>
+                <p><i><span data-i18n="price">Price:</span> $2.50</i></p>
+                <div class="item-order-controls">
+                    <input type="number" class="item-quantity" min="1" value="1" data-item-id="soda" data-price="2.50">
+                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="soda" data-item-name="Soda" data-price="2.50">Add To Order</button>
+                </div>
+            </article>
+
+            <article class="drink-item">
+                <h3 data-i18n="icedTea">Iced Tea</h3>
+                <p><i><span data-i18n="price">Price:</span> $2.00</i></p>
+                <div class="item-order-controls">
+                    <input type="number" class="item-quantity" min="1" value="1" data-item-id="iced-tea" data-price="2.00">
+                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="iced-tea" data-item-name="Iced Tea" data-price="2.00">Add To Order</button>
+                </div>
+            </article>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p data-i18n="footerText">&copy; 2025 Alberto González Pintado. Todos los derechos reservados.</p>
+</footer>
+
+<script src="translations.js"></script>
+<script src="script.js"></script>
+</body>
+
+</html>
+
+
+
+

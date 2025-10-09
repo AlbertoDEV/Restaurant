@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Mesón - Staff Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <div id="language-selector">
+        <label for="language-select" data-i18n="language">Language:</label>
+        <select id="language-select">
+            <option value="en" data-i18n="english">English</option>
+            <option value="es" data-i18n="spanish">Spanish</option>
+        </select>
+    </div>
+    <img id="header-img" src="assets/LogoMeson.png" alt="El Mesón Logo">
+    <h1 data-i18n="restaurantName">El Mesón</h1>
+    <nav>
+        <ul>
+            <li><a href="index.html" data-i18n="ourMenu">Our Menu</a></li>
+            <li><a href="index.html#tables" data-i18n="selectTable">Select Table</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section id="login-form">
+        <h2 data-i18n="loginTitle">Staff Login</h2>
+        <form id="staff-login-form">
+            <div class="form-group">
+                <label for="username" data-i18n="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password" data-i18n="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div id="login-error" class="error-message" style="display: none;">
+                <p data-i18n="loginError">Invalid username or password</p>
+            </div>
+            <input type="submit" data-i18n-value="login" value="Login">
+        </form>
+    </section>
+</main>
+
+<footer>
+    <p data-i18n="footerText">&copy; 2025 Alberto DEV. Todos los derechos reservados.</p>
+</footer>
+
+<script src="translations.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
+
+
+

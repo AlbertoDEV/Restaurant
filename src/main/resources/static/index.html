@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Mesón</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <div id="language-selector">
+        <label for="language-select" data-i18n="language">Language:</label>
+        <select id="language-select">
+            <option value="en" data-i18n="english">English</option>
+            <option value="es" data-i18n="spanish">Spanish</option>
+        </select>
+    </div>
+    <img id="header-img" src="assets/LogoMeson.png" alt="El Mesón Logo">
+    <h1 data-i18n="restaurantName">El Mesón</h1>
+    <nav>
+        <ul>
+            <li><a href="#menu" data-i18n="ourMenu">Our Menu</a></li>
+            <li><a href="#tables" data-i18n="selectTable">Select Table</a></li>
+            <li><a href="login.html" data-i18n="staffLogin">Staff Login</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section id="menu">
+        <h2 data-i18n="menu">Menu</h2>
+        <article class="menu-item">
+            <img src="assets/BocataCalamaresMeson.png" alt="Bocata de Calamares">
+            <div class="item-details">
+                <h3 data-i18n="bocataCalamares">Bocata de Calamares</h3>
+                <p><span data-i18n="bocataCalamaresDesc">Traditional Madrid-style sandwich with crispy fried squid rings and aioli sauce.</span> <i><span data-i18n="price">Price:</span> $12.99</i></p>
+            </div>
+        </article>
+
+        <article class="menu-item">
+            <img src="assets/BocataJamonMeson.png" alt="Bocata de Tortilla">
+            <div class="item-details">
+                <h3 data-i18n="bocataTortilla">Bocata de Tortilla</h3>
+                <p><span data-i18n="bocataTortillaDesc">Classic Madrid sandwich with Spanish omelette made with potatoes and onions.</span> <i><span data-i18n="price">Price:</span> $10.50</i></p>
+            </div>
+        </article>
+
+        <article class="menu-item">
+            <img src="assets/BocataTortillaMeson.png" alt="Bocata de Jamón">
+            <div class="item-details">
+                <h3 data-i18n="bocataJamon">Bocata de Jamón</h3>
+                <p><span data-i18n="bocataJamonDesc">Delicious sandwich with premium Iberian ham, tomato, and olive oil on crusty bread.</span> <i><span data-i18n="price">Price:</span> $14.00</i></p>
+            </div>
+        </article>
+    </section>
+
+    <section id="tables">
+        <h2 data-i18n="selectTable">Select Table</h2>
+        <div class="tables-container">
+            <div class="table-item" data-table="1">
+                <img src="https://placehold.co/120x120/3498DB/FFFFFF?text=Table+1" alt="Table 1">
+                <h3 data-i18n="table1">Table 1</h3>
+                <a href="table1.html" class="table-button" data-i18n="orderHere">Order Here</a>
+            </div>
+            <div class="table-item" data-table="2">
+                <img src="https://placehold.co/120x120/E74C3C/FFFFFF?text=Table+2" alt="Table 2">
+                <h3 data-i18n="table2">Table 2</h3>
+                <a href="table2.html" class="table-button" data-i18n="orderHere">Order Here</a>
+            </div>
+            <div class="table-item" data-table="3">
+                <img src="https://placehold.co/120x120/2ECC71/FFFFFF?text=Table+3" alt="Table 3">
+                <h3 data-i18n="table3">Table 3</h3>
+                <a href="table3.html" class="table-button" data-i18n="orderHere">Order Here</a>
+            </div>
+            <div class="table-item" data-table="4">
+                <img src="https://placehold.co/120x120/F39C12/FFFFFF?text=Table+4" alt="Table 4">
+                <h3 data-i18n="table4">Table 4</h3>
+                <a href="table4.html" class="table-button" data-i18n="orderHere">Order Here</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p data-i18n="footerText">&copy; 2025 Alberto DEV. Todos los derechos reservados.</p>
+</footer>
+
+<script src="translations.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
+
+
