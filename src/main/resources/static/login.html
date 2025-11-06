@@ -28,7 +28,7 @@
 <main>
     <section id="login-form">
         <h2 data-i18n="loginTitle">Staff Login</h2>
-        <form id="staff-login-form">
+        <form id="staff-login-form" action="/api/auth/login" method="POST">
             <div class="form-group">
                 <label for="username" data-i18n="username">Username</label>
                 <input type="text" id="username" name="username" required>

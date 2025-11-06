@@ -35,6 +35,15 @@
         <div id="order-items" class="order-items">
             <!-- Order items will be displayed here -->
         </div>
+        <button id="order-round-btn" class="add-to-order-btn" data-i18n="orderRound">Order Round</button>
+        <button id="request-bill-btn" class="add-to-order-btn" data-i18n="requestBill">Request Bill</button>
+    </section>
+
+    <section id="rounds">
+        <h2 data-i18n="rounds">Rounds</h2>
+        <div id="rounds-list">
+            <!-- Rounds will be displayed here -->
+        </div>
     </section>
 
     <section id="menu">
@@ -46,7 +55,7 @@
                 <p><span data-i18n="bocataCalamaresDesc">Traditional Madrid-style sandwich with crispy fried squid rings and aioli sauce.</span> <i><span data-i18n="price">Price:</span> $12.99</i></p>
                 <div class="item-order-controls">
                     <input type="number" class="item-quantity" min="1" value="1" data-item-id="bocata-calamares" data-price="12.99">
-                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="bocata-calamares" data-item-name="Bocata de Calamares" data-price="12.99">Add To Order</button>
+                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="bocata-calamares" data-item-name="bocataCalamares" data-price="12.99">Add To Order</button>
                 </div>
             </div>
         </article>
@@ -58,7 +67,7 @@
                 <p><span data-i18n="bocataTortillaDesc">Classic Madrid sandwich with Spanish omelette made with potatoes and onions.</span> <i><span data-i18n="price">Price:</span> $10.50</i></p>
                 <div class="item-order-controls">
                     <input type="number" class="item-quantity" min="1" value="1" data-item-id="bocata-tortilla" data-price="10.50">
-                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="bocata-tortilla" data-item-name="Bocata de Tortilla" data-price="10.50">Add To Order</button>
+                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="bocata-tortilla" data-item-name="bocataTortilla" data-price="10.50">Add To Order</button>
                 </div>
             </div>
         </article>
@@ -70,7 +79,7 @@
                 <p><span data-i18n="bocataJamonDesc">Delicious sandwich with premium Iberian ham, tomato, and olive oil on crusty bread.</span> <i><span data-i18n="price">Price:</span> $14.00</i></p>
                 <div class="item-order-controls">
                     <input type="number" class="item-quantity" min="1" value="1" data-item-id="bocata-jamon" data-price="14.00">
-                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="bocata-jamon" data-item-name="Bocata de Jamón" data-price="14.00">Add To Order</button>
+                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="bocata-jamon" data-item-name="bocataJamon" data-price="14.00">Add To Order</button>
                 </div>
             </div>
         </article>
@@ -84,7 +93,7 @@
                 <p><i><span data-i18n="price">Price:</span> $3.50</i></p>
                 <div class="item-order-controls">
                     <input type="number" class="item-quantity" min="1" value="1" data-item-id="mixed-salad" data-price="3.50">
-                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="mixed-salad" data-item-name="Mixed Salad" data-price="3.50">Add To Order</button>
+                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="mixed-salad" data-item-name="mixedSalad" data-price="3.50">Add To Order</button>
                 </div>
             </article>
 
@@ -93,7 +102,7 @@
                 <p><i><span data-i18n="price">Price:</span> $4.50</i></p>
                 <div class="item-order-controls">
                     <input type="number" class="item-quantity" min="1" value="1" data-item-id="caesar-salad" data-price="4.50">
-                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="caesar-salad" data-item-name="Caesar Salad" data-price="4.50">Add To Order</button>
+                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="caesar-salad" data-item-name="caesarSalad" data-price="4.50">Add To Order</button>
                 </div>
             </article>
 
@@ -102,7 +111,7 @@
                 <p><i><span data-i18n="price">Price:</span> $3.00</i></p>
                 <div class="item-order-controls">
                     <input type="number" class="item-quantity" min="1" value="1" data-item-id="potatoes" data-price="3.00">
-                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="potatoes" data-item-name="Potatoes" data-price="3.00">Add To Order</button>
+                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="potatoes" data-item-name="potatoes" data-price="3.00">Add To Order</button>
                 </div>
             </article>
 
@@ -111,7 +120,7 @@
                 <p><i><span data-i18n="price">Price:</span> $4.00</i></p>
                 <div class="item-order-controls">
                     <input type="number" class="item-quantity" min="1" value="1" data-item-id="patatas-bravas" data-price="4.00">
-                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="patatas-bravas" data-item-name="Patatas Bravas" data-price="4.00">Add To Order</button>
+                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="patatas-bravas" data-item-name="patatasBravas" data-price="4.00">Add To Order</button>
                 </div>
             </article>
         </div>
@@ -123,7 +132,7 @@
                 <p><i><span data-i18n="price">Price:</span> $1.50</i></p>
                 <div class="item-order-controls">
                     <input type="number" class="item-quantity" min="1" value="1" data-item-id="water" data-price="1.50">
-                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="water" data-item-name="Water" data-price="1.50">Add To Order</button>
+                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="water" data-item-name="water" data-price="1.50">Add To Order</button>
                 </div>
             </article>
 
@@ -132,7 +141,7 @@
                 <p><i><span data-i18n="price">Price:</span> $2.50</i></p>
                 <div class="item-order-controls">
                     <input type="number" class="item-quantity" min="1" value="1" data-item-id="soda" data-price="2.50">
-                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="soda" data-item-name="Soda" data-price="2.50">Add To Order</button>
+                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="soda" data-item-name="soda" data-price="2.50">Add To Order</button>
                 </div>
             </article>
 
@@ -141,7 +150,7 @@
                 <p><i><span data-i18n="price">Price:</span> $2.00</i></p>
                 <div class="item-order-controls">
                     <input type="number" class="item-quantity" min="1" value="1" data-item-id="iced-tea" data-price="2.00">
-                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="iced-tea" data-item-name="Iced Tea" data-price="2.00">Add To Order</button>
+                    <button class="add-to-order-btn" data-i18n="addToOrder" data-item-id="iced-tea" data-item-name="icedTea" data-price="2.00">Add To Order</button>
                 </div>
             </article>
         </div>

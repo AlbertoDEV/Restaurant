@@ -25,6 +25,20 @@ public class RestaurantApplication {
                 admin.setRole("ADMIN");
                 userRepository.save(admin);
             }
+            if (userRepository.findByUsername("waiter").isEmpty()) {
+                User waiter = new User();
+                waiter.setUsername("waiter");
+                waiter.setPassword(passwordEncoder.encode("password"));
+                waiter.setRole("WAITER");
+                userRepository.save(waiter);
+            }
+            if (userRepository.findByUsername("cook").isEmpty()) {
+                User cook = new User();
+                cook.setUsername("cook");
+                cook.setPassword(passwordEncoder.encode("password"));
+                cook.setRole("COOK");
+                userRepository.save(cook);
+            }
         };
     }
 }
