@@ -2,17 +2,13 @@
 
 // Global variables for order management
 let tableOrders = {
-    1: { items: [], total: 0, status: 'heard' },
-    2: { items: [], total: 0, status: 'heard' },
-    3: { items: [], total: 0, status: 'heard' },
-    4: { items: [], total: 0, status: 'heard' }
+    1: { rounds: [], currentOrder: { items: [], total: 0 }, total: 0, status: 'heard' },
+    2: { rounds: [], currentOrder: { items: [], total: 0 }, total: 0, status: 'heard' },
+    3: { rounds: [], currentOrder: { items: [], total: 0 }, total: 0, status: 'heard' },
+    4: { rounds: [], currentOrder: { items: [], total: 0 }, total: 0, status: 'heard' }
 };
 
-// Staff credentials (in a real app, this would be server-side)
-const staffCredentials = {
-    'waiter': 'password123',
-    'cook': 'kitchen456'
-};
+// Staff credentials are now managed by the backend.
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize language functionality
@@ -27,10 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (currentPage === 'index.html' || currentPage === '') {
         // Main page functionality
         initializeMainPage();
-    } else if (currentPage === 'table.html' || 
-               currentPage === 'table1.html' || 
-               currentPage === 'table2.html' || 
-               currentPage === 'table3.html' || 
+    } else if (currentPage === 'table.html' ||
+               currentPage === 'table1.html' ||
+               currentPage === 'table2.html' ||
+               currentPage === 'table3.html' ||
                currentPage === 'table4.html') {
         // Table order page functionality
         initializeTablePage();
@@ -40,6 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (currentPage === 'staff.html') {
         // Staff dashboard functionality
         initializeStaffPage();
+    } else if (currentPage === 'history.html') {
+        // Ticket history functionality
+        initializeHistoryPage();
     }
 
     // Toggle allergies selector visibility if it exists
@@ -91,6 +90,19 @@ function initializeTablePage() {
 
     // Display current order items and total
     updateOrderDisplay(tableNumber);
+    updateRoundsDisplay(tableNumber);
+
+    // Add event listener for order round button
+    const orderRoundBtn = document.getElementById('order-round-btn');
+    if (orderRoundBtn) {
+        orderRoundBtn.addEventListener('click', () => orderRound(tableNumber));
+    }
+
+    // Add event listener for request bill button
+    const requestBillBtn = document.getElementById('request-bill-btn');
+    if (requestBillBtn) {
+        requestBillBtn.addEventListener('click', () => requestBill(tableNumber));
+    }
 
     // Add event listeners to "Add To Order" buttons
     const addToOrderButtons = document.querySelectorAll('.add-to-order-btn');
@@ -119,30 +131,13 @@ function initializeTablePage() {
 function initializeLoginPage() {
     console.log('Initializing login page...');
 
-    const loginForm = document.getElementById('staff-login-form');
-    if (loginForm) {
-        loginForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            // Check credentials
-            if (staffCredentials[username] && staffCredentials[username] === password) {
-                // Store login status in sessionStorage
-                sessionStorage.setItem('staffLoggedIn', 'true');
-                sessionStorage.setItem('staffUsername', username);
-
-                // Redirect to staff dashboard
-                window.location.href = 'staff.html';
-            } else {
-                // Show error message
-                const errorElement = document.getElementById('login-error');
-                if (errorElement) {
-                    errorElement.style.display = 'block';
-                }
-            }
-        });
+    // Check for login error parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('error')) {
+        const errorElement = document.getElementById('login-error');
+        if (errorElement) {
+            errorElement.style.display = 'block';
+        }
     }
 }
 
@@ -150,13 +145,8 @@ function initializeLoginPage() {
 function initializeStaffPage() {
     console.log('Initializing staff page...');
 
-    // Check if user is logged in
-    const isLoggedIn = sessionStorage.getItem('staffLoggedIn') === 'true';
-    if (!isLoggedIn) {
-        // Redirect to login page if not logged in
-        window.location.href = 'login.html';
-        return;
-    }
+    // The user is authenticated by Spring Security at this point.
+    // The old sessionStorage check is no longer needed.
 
     // Add logout functionality
     const logoutBtn = document.getElementById('logout-btn');
@@ -191,24 +181,52 @@ function initializeStaffPage() {
             displayAllTableOrders();
         });
     });
+
+    // Add event listeners to settle bill buttons
+    const settleBillButtons = document.querySelectorAll('.settle-bill-btn');
+    settleBillButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const tableNumber = this.getAttribute('data-table');
+            settleBill(tableNumber);
+        });
+    });
+}
+
+function settleBill(tableNumber) {
+    // Generate ticket
+    const ticket = {
+        ticketNumber: Date.now(), // Simple unique ID
+        date: new Date().toISOString(),
+        tableNumber: tableNumber,
+        total: tableOrders[tableNumber].total
+    };
+
+    // Save ticket to history
+    let ticketHistory = JSON.parse(localStorage.getItem('ticketHistory')) || [];
+    ticketHistory.push(ticket);
+    localStorage.setItem('ticketHistory', JSON.stringify(ticketHistory));
+
+    // Clear table order
+    tableOrders[tableNumber] = { rounds: [], currentOrder: { items: [], total: 0 }, total: 0, status: 'heard' };
+    saveOrdersToStorage();
+
+    // Update display
+    displayAllTableOrders();
 }
 
 // Add item to order
 function addItemToOrder(tableNumber, itemId, itemName, price, quantity) {
-    // Initialize table order if it doesn't exist
-    if (!tableOrders[tableNumber]) {
-        tableOrders[tableNumber] = { items: [], total: 0, status: 'heard' };
-    }
+    const currentOrder = tableOrders[tableNumber].currentOrder;
 
     // Check if item already exists in order
-    const existingItemIndex = tableOrders[tableNumber].items.findIndex(item => item.id === itemId);
+    const existingItemIndex = currentOrder.items.findIndex(item => item.id === itemId);
 
     if (existingItemIndex >= 0) {
         // Update existing item
-        tableOrders[tableNumber].items[existingItemIndex].quantity += quantity;
+        currentOrder.items[existingItemIndex].quantity += quantity;
     } else {
         // Add new item
-        tableOrders[tableNumber].items.push({
+        currentOrder.items.push({
             id: itemId,
             name: itemName,
             price: price,
@@ -225,13 +243,18 @@ function addItemToOrder(tableNumber, itemId, itemName, price, quantity) {
 
 // Recalculate order total
 function recalculateOrderTotal(tableNumber) {
-    let total = 0;
-
-    tableOrders[tableNumber].items.forEach(item => {
-        total += item.price * item.quantity;
+    let currentOrderTotal = 0;
+    tableOrders[tableNumber].currentOrder.items.forEach(item => {
+        currentOrderTotal += item.price * item.quantity;
     });
+    tableOrders[tableNumber].currentOrder.total = currentOrderTotal;
 
-    tableOrders[tableNumber].total = total;
+    let grandTotal = 0;
+    tableOrders[tableNumber].rounds.forEach(round => {
+        grandTotal += round.total;
+    });
+    grandTotal += currentOrderTotal;
+    tableOrders[tableNumber].total = grandTotal;
 }
 
 // Update order display on table page
@@ -240,30 +263,116 @@ function updateOrderDisplay(tableNumber) {
     const orderItemsContainer = document.getElementById('order-items');
 
     if (totalPriceDisplay && orderItemsContainer) {
-        // Update total price
+        const currentOrder = tableOrders[tableNumber].currentOrder;
+        const grandTotal = tableOrders[tableNumber].total;
         const currentLang = document.documentElement.lang || 'en';
-        const totalPrice = tableOrders[tableNumber].total;
-        totalPriceDisplay.querySelector('h3').textContent = translations[currentLang].currentTotal.replace('{price}', totalPrice.toFixed(2));
-        totalPriceDisplay.querySelector('h3').setAttribute('data-price', totalPrice.toFixed(2));
+
+        // Update total price
+        totalPriceDisplay.querySelector('h3').textContent = translations[currentLang].currentTotal.replace('{price}', grandTotal.toFixed(2));
+        totalPriceDisplay.querySelector('h3').setAttribute('data-price', grandTotal.toFixed(2));
 
         // Clear current items
         orderItemsContainer.innerHTML = '';
 
         // Add items to display
-        if (tableOrders[tableNumber].items.length === 0) {
-            orderItemsContainer.innerHTML = '<p>No items in order yet</p>';
+        if (currentOrder.items.length === 0) {
+            orderItemsContainer.innerHTML = `<p data-i18n="noItemsInOrder">${translations[currentLang].noItemsInOrder}</p>`;
         } else {
-            tableOrders[tableNumber].items.forEach(item => {
+            currentOrder.items.forEach(item => {
                 const itemElement = document.createElement('div');
                 itemElement.className = 'order-item';
                 itemElement.innerHTML = `
-                    <span class="item-name">${item.name}</span>
+                    <span class="item-name">${translations[currentLang][item.name] || item.name}</span>
                     <span class="item-quantity">x${item.quantity}</span>
                     <span class="item-price">€${(item.price * item.quantity).toFixed(2)}</span>
                 `;
                 orderItemsContainer.appendChild(itemElement);
             });
         }
+    }
+}
+
+// Order a round
+function orderRound(tableNumber) {
+    const currentOrder = tableOrders[tableNumber].currentOrder;
+    if (currentOrder.items.length === 0) {
+        const currentLang = document.documentElement.lang || 'en';
+        alert(translations[currentLang].addItemsMessage);
+        return;
+    }
+
+    // Add current order to rounds
+    tableOrders[tableNumber].rounds.push({ ...currentOrder, roundNumber: tableOrders[tableNumber].rounds.length + 1 });
+
+    // Reset current order
+    tableOrders[tableNumber].currentOrder = { items: [], total: 0 };
+
+    // Recalculate totals
+    recalculateOrderTotal(tableNumber);
+
+    // Update display
+    updateOrderDisplay(tableNumber);
+    updateRoundsDisplay(tableNumber);
+
+    // Save to localStorage
+    saveOrdersToStorage();
+}
+
+// Request the bill
+function requestBill(tableNumber) {
+    if (!tableOrders[tableNumber] || tableOrders[tableNumber].rounds.length === 0) {
+        alert("You have no orders to pay for.");
+        return;
+    }
+
+    // Set status to "paying"
+    tableOrders[tableNumber].status = 'paying';
+
+    // Save to localStorage
+    saveOrdersToStorage();
+
+    // Notify user
+    const currentLang = document.documentElement.lang || 'en';
+    alert(translations[currentLang].billRequested);
+
+    // Optionally, disable buttons
+    document.getElementById('order-round-btn').disabled = true;
+    document.getElementById('request-bill-btn').disabled = true;
+    document.querySelectorAll('.add-to-order-btn').forEach(btn => btn.disabled = true);
+}
+
+
+// Update rounds display on table page
+function updateRoundsDisplay(tableNumber) {
+    const roundsListContainer = document.getElementById('rounds-list');
+    if (!roundsListContainer) return;
+
+    roundsListContainer.innerHTML = '';
+    const rounds = tableOrders[tableNumber].rounds;
+    const currentLang = document.documentElement.lang || 'en';
+
+    if (rounds.length > 0) {
+        rounds.forEach(round => {
+            const roundElement = document.createElement('div');
+            roundElement.className = 'round-container';
+
+            let itemsHtml = '';
+            round.items.forEach(item => {
+                itemsHtml += `
+                    <div class="order-item">
+                        <span class="item-name">${translations[currentLang][item.name] || item.name}</span>
+                        <span class="item-quantity">x${item.quantity}</span>
+                        <span class="item-price">€${(item.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                `;
+            });
+
+            roundElement.innerHTML = `
+                <h4>Round ${round.roundNumber} - Total: €${round.total.toFixed(2)}</h4>
+                ${itemsHtml}
+            `;
+            roundsListContainer.appendChild(roundElement);
+        });
     }
 }
 
@@ -277,7 +386,7 @@ function displayAllTableOrders() {
             orderListElement.innerHTML = '';
 
             // Add items to display
-            if (!tableOrders[tableNumber] || tableOrders[tableNumber].items.length === 0) {
+            if (!tableOrders[tableNumber] || (tableOrders[tableNumber].rounds.length === 0 && tableOrders[tableNumber].currentOrder.items.length === 0)) {
                 const noOrdersElement = document.createElement('p');
                 noOrdersElement.className = 'no-orders';
                 noOrdersElement.setAttribute('data-i18n', 'noOrders');
@@ -307,22 +416,37 @@ function displayAllTableOrders() {
                     case 'delivered':
                         statusText = translations[currentLang].orderDelivered;
                         break;
+                    case 'paying':
+                        statusText = translations[currentLang].orderPaying;
+                        break;
                 }
 
                 statusElement.textContent = statusText;
                 orderListElement.appendChild(statusElement);
 
-                // Add items
-                tableOrders[tableNumber].items.forEach(item => {
-                    const itemElement = document.createElement('div');
-                    itemElement.className = 'order-item';
-                    itemElement.innerHTML = `
-                        <span class="item-name">${item.name}</span>
-                        <span class="item-quantity">x${item.quantity}</span>
-                        <span class="item-price">€${(item.price * item.quantity).toFixed(2)}</span>
+                // Add rounds
+                tableOrders[tableNumber].rounds.forEach(round => {
+                    const roundElement = document.createElement('div');
+                    roundElement.className = 'round-container';
+
+                    let itemsHtml = '';
+                    round.items.forEach(item => {
+                        itemsHtml += `
+                            <div class="order-item">
+                                <span class="item-name">${translations[currentLang][item.name] || item.name}</span>
+                                <span class="item-quantity">x${item.quantity}</span>
+                                <span class="item-price">€${(item.price * item.quantity).toFixed(2)}</span>
+                            </div>
+                        `;
+                    });
+
+                    roundElement.innerHTML = `
+                        <h4>Round ${round.roundNumber}</h4>
+                        ${itemsHtml}
                     `;
-                    orderListElement.appendChild(itemElement);
+                    orderListElement.appendChild(roundElement);
                 });
+
 
                 // Add total
                 const totalElement = document.createElement('div');
@@ -337,6 +461,15 @@ function displayAllTableOrders() {
             const statusSelect = document.querySelector(`.status-select[data-table="${tableNumber}"]`);
             if (statusSelect && tableOrders[tableNumber]) {
                 statusSelect.value = tableOrders[tableNumber].status;
+            }
+
+            const settleBillBtn = document.querySelector(`.settle-bill-btn[data-table="${tableNumber}"]`);
+            if (settleBillBtn) {
+                if (tableOrders[tableNumber]?.status === 'paying') {
+                    settleBillBtn.classList.remove('hidden');
+                } else {
+                    settleBillBtn.classList.add('hidden');
+                }
             }
         }
     }
@@ -359,7 +492,41 @@ function saveOrdersToStorage() {
 function loadOrdersFromStorage() {
     const savedOrders = localStorage.getItem('tableOrders');
     if (savedOrders) {
-        tableOrders = JSON.parse(savedOrders);
+        let loadedOrders = JSON.parse(savedOrders);
+        let needsMigration = false;
+
+        // Check if migration is needed
+        for (const tableNum in loadedOrders) {
+            if (loadedOrders.hasOwnProperty(tableNum) && loadedOrders[tableNum].items) {
+                needsMigration = true;
+                break;
+            }
+        }
+
+        if (needsMigration) {
+            for (const tableNum in loadedOrders) {
+                if (loadedOrders.hasOwnProperty(tableNum) && loadedOrders[tableNum].items) {
+                    const oldOrder = loadedOrders[tableNum];
+                    loadedOrders[tableNum] = {
+                        rounds: [],
+                        currentOrder: { items: [], total: 0 },
+                        total: oldOrder.total || 0,
+                        status: oldOrder.status || 'heard'
+                    };
+                    if (oldOrder.items && oldOrder.items.length > 0) {
+                        loadedOrders[tableNum].rounds.push({
+                            items: oldOrder.items,
+                            total: oldOrder.total || 0,
+                            roundNumber: 1
+                        });
+                    }
+                }
+            }
+            // Save the migrated structure back to localStorage
+            localStorage.setItem('tableOrders', JSON.stringify(loadedOrders));
+        }
+
+        tableOrders = loadedOrders;
     }
 }
 
@@ -448,4 +615,138 @@ function applyTranslations(lang) {
     if (window.location.pathname.includes('staff.html')) {
         displayAllTableOrders();
     }
+}
+
+// Function to initialize the history page
+function initializeHistoryPage() {
+    console.log('Initializing history page...');
+    displayTicketHistory();
+
+    const generatePdfBtn = document.getElementById('generate-pdf-btn');
+    if (generatePdfBtn) {
+        generatePdfBtn.addEventListener('click', generateAndClearHistory);
+    }
+}
+
+// Function to display ticket history
+function displayTicketHistory() {
+    const historyGrid = document.getElementById('history-grid');
+    if (!historyGrid) return;
+
+    // Clear existing history to avoid duplication
+    // Keep the headers
+    const headers = historyGrid.querySelectorAll('.grid-header');
+    historyGrid.innerHTML = '';
+    headers.forEach(header => historyGrid.appendChild(header));
+
+
+    const ticketHistory = JSON.parse(localStorage.getItem('ticketHistory')) || [];
+
+    if (ticketHistory.length === 0) {
+        const noTicketsMessage = document.createElement('p');
+        noTicketsMessage.textContent = 'No tickets in history yet.';
+        noTicketsMessage.className = 'full-width-message'; // For styling
+        historyGrid.appendChild(noTicketsMessage);
+        return;
+    }
+
+    // Add headers for new columns
+    if (headers.length === 2) { // Assuming only Date and Ticket Number are there initially
+        const tableHeader = document.createElement('div');
+        tableHeader.className = 'grid-header';
+        tableHeader.dataset.i18n = 'table';
+        tableHeader.textContent = 'Table';
+        historyGrid.appendChild(tableHeader);
+
+        const totalHeader = document.createElement('div');
+        totalHeader.className = 'grid-header';
+        totalHeader.dataset.i18n = 'total';
+        totalHeader.textContent = 'Total';
+        historyGrid.appendChild(totalHeader);
+    }
+
+
+    ticketHistory.forEach(ticket => {
+        const dateCell = document.createElement('div');
+        dateCell.textContent = new Date(ticket.date).toLocaleString();
+        historyGrid.appendChild(dateCell);
+
+        const ticketNumberCell = document.createElement('div');
+        ticketNumberCell.textContent = ticket.ticketNumber;
+        historyGrid.appendChild(ticketNumberCell);
+
+        const tableNumberCell = document.createElement('div');
+        tableNumberCell.textContent = ticket.tableNumber;
+        historyGrid.appendChild(tableNumberCell);
+
+        const totalCell = document.createElement('div');
+        totalCell.textContent = `€${ticket.total.toFixed(2)}`;
+        historyGrid.appendChild(totalCell);
+    });
+}
+
+/**
+ * Generates a PDF from the ticket history and clears it.
+ * This function uses the html2canvas library to capture the history grid as an image,
+ * and jsPDF to insert that image into a PDF document.
+ * After generating the PDF, it clears the ticket history from localStorage.
+ */
+function generateAndClearHistory() {
+    // Check if jsPDF and html2canvas are loaded
+    if (typeof jspdf === 'undefined' || typeof html2canvas === 'undefined') {
+        console.error('jsPDF or html2canvas not loaded!');
+        alert('Could not generate PDF. Required libraries are missing.');
+        return;
+    }
+
+    const { jsPDF } = jspdf;
+    const historyGrid = document.getElementById('history-grid');
+
+    // Check if there is anything to generate
+    const ticketHistory = JSON.parse(localStorage.getItem('ticketHistory')) || [];
+    if (ticketHistory.length === 0) {
+        alert('No tickets in history to generate a PDF.');
+        return;
+    }
+
+    // Use html2canvas to render the grid as an image
+    html2canvas(historyGrid).then(canvas => {
+        // 'canvas' is the image of the grid
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF();
+
+        // Add the image to the PDF
+        // 'imgData' is the image data
+        // 'PNG' is the format
+        // 10, 10 are the x, y coordinates
+        // 190 is the width (A4 is 210mm wide, we leave some margin)
+        // The height is calculated automatically to maintain aspect ratio
+        pdf.addImage(imgData, 'PNG', 10, 10, 190, 0);
+
+        // Create a formatted timestamp for the filename
+        const now = new Date();
+        const timestamp = now.getFullYear() +
+                          '-' + String(now.getMonth() + 1).padStart(2, '0') +
+                          '-' + String(now.getDate()).padStart(2, '0') +
+                          '_' + String(now.getHours()).padStart(2, '0') +
+                          '-' + String(now.getMinutes()).padStart(2, '0') +
+                          '-' + String(now.getSeconds()).padStart(2, '0');
+
+        const filename = `historial-tickets-${timestamp}.pdf`;
+
+        // Save the PDF with the dynamic filename
+        pdf.save(filename);
+
+        // Clear the history from localStorage
+        localStorage.removeItem('ticketHistory');
+
+        // Update the display to show an empty history
+        displayTicketHistory();
+
+        // Notify the user
+        alert('PDF generated and history cleared successfully!');
+    }).catch(err => {
+        console.error('Error generating PDF:', err);
+        alert('An error occurred while generating the PDF.');
+    });
 }

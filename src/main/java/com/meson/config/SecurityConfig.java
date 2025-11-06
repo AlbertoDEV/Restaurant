@@ -17,10 +17,16 @@ public class SecurityConfig {
         http
             .csrf().disable()
             .authorizeRequests()
-                .antMatchers("/", "/health", "/api/**", "/**").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/login.html", "/api/auth/login", "/script.js", "/style.css", "/assets/**", "/translations.js").permitAll()
+                .antMatchers("/staff.html").authenticated()
+                .anyRequest().permitAll()
             .and()
-            .formLogin().disable()
+            .formLogin()
+                .loginPage("/login.html")
+                .loginProcessingUrl("/api/auth/login")
+                .defaultSuccessUrl("/staff.html", true)
+                .failureUrl("/login.html?error=true")
+            .and()
             .httpBasic().disable();
         
         return http.build();

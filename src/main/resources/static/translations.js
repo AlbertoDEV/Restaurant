@@ -29,6 +29,7 @@ const translations = {
         "tableNumber": "Table {number}",
 
         // Order form
+        "noItemsInOrder": "No items in order yet",
         "placeYourOrder": "Place Your Order",
         "bocataCalamaresQty": "Bocata de Calamares Quantity:",
         "bocataTortillaQty": "Bocata de Tortilla Quantity:",
@@ -60,6 +61,9 @@ const translations = {
         "goToCheckout": "Go To Checkout",
         "addToOrder": "Add To Order",
         "currentTotal": "Current Total: €{price}",
+        "orderRound": "Order Round",
+        "rounds": "Rounds",
+        "requestBill": "Request Bill",
 
         // Staff login
         "loginTitle": "Staff Login",
@@ -76,7 +80,9 @@ const translations = {
         "orderPreparing": "Preparing",
         "orderServing": "Serving to Table",
         "orderDelivered": "Delivered",
+        "orderPaying": "Paying",
         "updateStatus": "Update Status",
+        "settleBill": "Settle Bill",
         "noOrders": "No orders yet",
 
         // Footer
@@ -86,6 +92,15 @@ const translations = {
         "orderPlaced": "Your order has been placed! (This is a demo, no actual order was submitted.)",
         "totalPrice": "Total Price: €{price}",
         "orderAdded": "Item added to your order!",
+        "billRequested": "The bill has been requested. A staff member will be with you shortly.",
+        "addItemsMessage": "Please add items to your order before ordering a round.",
+
+        // History Page
+        "ticketHistory": "Ticket History",
+        "table": "Table",
+        "total": "Total",
+        "noTickets": "No tickets in history yet.",
+        "generateAndClear": "Generate PDF & Clear",
 
         // Language selector
         "language": "Language:",
@@ -121,6 +136,7 @@ const translations = {
         "tableNumber": "Mesa {number}",
 
         // Order form
+        "noItemsInOrder": "No hay artículos en el pedido todavía",
         "placeYourOrder": "Haz Tu Pedido",
         "bocataCalamaresQty": "Cantidad de Bocata de Calamares:",
         "bocataTortillaQty": "Cantidad de Bocata de Tortilla:",
@@ -152,6 +168,9 @@ const translations = {
         "goToCheckout": "Ir a Pagar",
         "addToOrder": "Añadir al Pedido",
         "currentTotal": "Total Actual: €{price}",
+        "orderRound": "Pedir Ronda",
+        "rounds": "Rondas",
+        "requestBill": "Pedir Cuenta",
 
         // Staff login
         "loginTitle": "Acceso Personal",
@@ -168,7 +187,9 @@ const translations = {
         "orderPreparing": "Marchando",
         "orderServing": "Llevando a Mesa",
         "orderDelivered": "En Mesa",
+        "orderPaying": "Pagando",
         "updateStatus": "Actualizar Estado",
+        "settleBill": "Cobrar",
         "noOrders": "No hay pedidos aún",
 
         // Footer
@@ -178,6 +199,15 @@ const translations = {
         "orderPlaced": "¡Tu pedido ha sido realizado! (Esto es una demostración, no se ha enviado ningún pedido real.)",
         "totalPrice": "Precio Total: €{price}",
         "orderAdded": "¡Artículo añadido a tu pedido!",
+        "billRequested": "La cuenta ha sido solicitada. Un miembro del personal estará con usted en breve.",
+        "addItemsMessage": "Por favor, añade artículos a tu pedido antes de pedir una ronda.",
+
+        // History Page
+        "ticketHistory": "Historial de Tickets",
+        "table": "Mesa",
+        "total": "Total",
+        "noTickets": "No hay tickets en el historial todavía.",
+        "generateAndClear": "Generar PDF y Limpiar",
 
         // Language selector
         "language": "Idioma:",

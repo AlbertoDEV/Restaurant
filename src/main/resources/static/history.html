@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Mesón - Ticket History</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <div id="language-selector">
+        <label for="language-select" data-i18n="language">Language:</label>
+        <select id="language-select">
+            <option value="en" data-i18n="english">English</option>
+            <option value="es" data-i18n="spanish">Spanish</option>
+        </select>
+    </div>
+    <img id="header-img" src="assets/LogoMeson.png" alt="El Mesón Logo">
+    <h1 data-i18n="restaurantName">El Mesón</h1>
+    <nav>
+        <ul>
+            <li><a href="staff.html" data-i18n="staffDashboard">Staff Dashboard</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section id="ticket-history">
+        <h2 data-i18n="ticketHistory">Ticket History</h2>
+        <div class="grid-container" id="history-grid">
+            <div class="grid-header" data-i18n="date">Date</div>
+            <div class="grid-header" data-i18n="ticketNumber">Ticket Number</div>
+            <div class="grid-header" data-i18n="table">Table</div>
+            <div class="grid-header" data-i18n="total">Total</div>
+            <!-- History items will be populated here by script.js -->
+        </div>
+        <p class="no-tickets" style="display: none;" data-i18n="noTickets">No tickets in history yet.</p>
+        <button id="generate-pdf-btn" class="update-status-btn" data-i18n="generateAndClear">Generate PDF & Clear</button>
+    </section>
+</main>
+
+<footer>
+    <p data-i18n="footerText">&copy; 2025 Alberto DEV. Todos los derechos reservados.</p>
+</footer>
+
+<script src="translations.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
